@@ -84,15 +84,16 @@ public class MyClient {
         choixInscription = input.nextLine(); 
 
         repeter = true;
-        while (repeter){
-            if ((Integer.parseInt(choixInscription) > 0) && ((Integer.parseInt(choixInscription) < 3))){
-                repeter = false;
-            } else {
-                System.out.println("Invalide");
-                System.out.print("> Choix: ");
-                choixInscription = input.nextLine(); 
+        //Boucle limitant les numéros disponibles pour les choix de cours
+            while (repeter){
+                if ((Integer.parseInt(choixInscription) > 0) && ((Integer.parseInt(choixInscription) < 3))){
+                    repeter = false;
+                } else {
+                    System.out.println("Invalide");
+                    System.out.print("> Choix: ");
+                    choixInscription = input.nextLine();
+                }
             }
-        }
         
         } while (Integer.parseInt(choixInscription) == 1);
 
@@ -102,6 +103,7 @@ public class MyClient {
         String matricule = "";
         String codeCours = "";
 
+        //Recevoir le nom et prénom du client
         System.out.print("prenom: ");
         prenom = input.nextLine();
         while(prenom.equals("")){
@@ -120,6 +122,8 @@ public class MyClient {
         System.out.print("email: ");
         email = input.nextLine();
         repeter = true;
+
+        // Recevoir le courriel du client avec des restrictions concernant le format
         while(repeter){
             try {
                 if(email.split("@",2)[1].equals("umontreal.ca")){
