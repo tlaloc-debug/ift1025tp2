@@ -97,6 +97,7 @@ public class Server {
             FileReader fr = new FileReader("cours.txt");
             BufferedReader reader = new BufferedReader(fr);
             String courString;
+
             while ((courString = reader.readLine()) != null) {
                 String[] courListe = courString.split("\t");
                 Course courObjet = new Course(courListe[1], courListe[0], courListe[2]);
