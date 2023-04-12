@@ -46,8 +46,9 @@ public class MyClient {
             }
         }
                  
-        Command charger = new Command("CHARGER", session);
+        client.Command charger = new client.Command("CHARGER", session);
 
+        //connect au serveur
         try{      
             Socket s=new Socket("localhost",1337);  
             ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
@@ -115,6 +116,7 @@ public class MyClient {
             System.out.print("nom: ");
             nom = input.nextLine();
         }
+        //System.out.print(nom + prenom);
         System.out.print("email: ");
         email = input.nextLine();
         repeter = true;
@@ -171,7 +173,7 @@ public class MyClient {
             }    
         }
 
-        Course courseInscription = new Course(null, null, null);
+        client.Course courseInscription = new client.Course(null, null, null);
         
         for (int i = 0; i < coursesList.size(); i++){
             String[] coursListListe = coursesList.get(i).toString().split(" ");
@@ -190,10 +192,10 @@ public class MyClient {
            
         }
         
-        RegistrationForm newRegistration = new RegistrationForm(prenom, nom, email, matricule, courseInscription);
+        client.RegistrationForm newRegistration = new client.RegistrationForm(prenom, nom, email, matricule, courseInscription);
         //System.out.println(newRegistration.toString());
         
-        Command inscrire = new Command("INSCRIRE", newRegistration.toString());
+        client.Command inscrire = new client.Command("INSCRIRE", newRegistration.toString());
         try{      
             Socket s=new Socket("localhost",1337);  
             ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
@@ -213,8 +215,8 @@ public class MyClient {
         }catch(Exception e){
             System.out.println(e);
         }  
-                
+        System.out.println("Félicitations, inscription réussi de " + prenom + " au cours " + codeCours + ".");
         input.close();
-        
+
     }  
 }  
