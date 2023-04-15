@@ -113,7 +113,8 @@ public class RegistrationForm implements Serializable {
     }
 
     /**
-     * Cette méthode permet de créer un String qui contient les données du formulaire d'inscription au format json.
+     * Cette méthode permet de créer un String qui contient les données du formulaire 
+     * d'inscription au format json.
      * 
      * @return  les données du formulaire d'inscription au format json.
      */
