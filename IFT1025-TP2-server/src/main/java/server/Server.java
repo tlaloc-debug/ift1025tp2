@@ -12,6 +12,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.io.*;
 
+/**
+ * La classe Serveur crée un serveur qui permet d'afficher les cours offerts par l'Université de Montréal
+ * pour différentes sessions (automne, été et hiver)
+ *
+ * De plus, cette classe permet à un étudiant de s'inscrire aux différents cours offerts.
+ *
+ * Pour cela, l'utilisateur doit se connecter via un client CLI ou un client GUI.
+ * Ce client facilite la communication entre les étudiants et le serveur.
+ */
 public class Server {
 
     public final static String REGISTER_COMMAND = "INSCRIRE";
@@ -22,22 +31,54 @@ public class Server {
     private ObjectOutputStream objectOutputStream;
     private final ArrayList<EventHandler> handlers;
 
+    /**
+     * Cette méthode crée un serveur à l'aide de la méthode ServerSocket de la bibliothèque java.net
+     * et accepte au maximum un client.
+     *
+     * Ensuite, cette méthode ajoute une liste contenant les eventhamdlers qui permettront
+     * de décrire le comportement du serveur en fonction des interactions de l'utilisateur (client).
+     *
+     * @param port          le port de connexion du serveur
+     * @throws IOException  exception s'il y a un problème en essayant d'ouvrir ou de connecter le socket
+     */
     public Server(int port) throws IOException {
         this.server = new ServerSocket(port, 1);
         this.handlers = new ArrayList<EventHandler>();
         this.addEventHandler(this::handleEvents);
     }
 
+    /**
+     * Cette méthode ajoute un eventhandler à la liste des eventhandlers de la classe Server
+     *
+     * @param h     le eventhandler a ajouter
+     */
     public void addEventHandler(EventHandler h) {
         this.handlers.add(h);
     }
 
+    /**
+     * Cette méthode permet d'implémenter chaque eventhandler dans la liste des eventhandlers de la classe Server
+     * à une Pair formée par cmd et arg, en utilisant l'interface fonctionnelle de la classe EventHandler.
+     *
+     * @param cmd   la commande, soit CHARGER soit INSCRIRE
+     * @param arg   les arguments de la commande, soit la session soit null
+     */
     private void alertHandlers(String cmd, String arg) {
         for (EventHandler h : this.handlers) {
             h.handle(cmd, arg);
         }
     }
 
+    /**
+     * cette méthode vous permet d'accepter un nouveau client. une fois la connexion établie,
+     * il crée un canal de communication à la fois pour recevoir des données,
+     * en utilisant la classe ObjectInputStream, et pour les envoyer,
+     * en utilisant la classe ObjectOutputStream
+     *
+     * Finalement, il appelle les méthodes listen() et disconnet()
+     *
+     * @throws  Exception   exception si un problème survient lors de connexion avec le client
+     */
     public void run() {
         while (true) {
             try {
@@ -54,6 +95,17 @@ public class Server {
         }
     }
 
+    /**
+     * Cette méthode crée une Paire à partir de la commande reçue du client via l'objectInputStream.
+     * Le Key de cette Paire est la commande elle-même et le Value de cette Paire sont les arguments de la commande,
+     * (session pour la commande "CHARGER" et null pour la commande "INSCRIPTION").
+     *
+     * Ensuite, Cette méthode permet d'implémenter tous les eventhandlers contenus dans la liste des eventhandlers
+     * de la classe Server en appelant la fonction alertHandlers()
+     *
+     * @throws IOException              exception s'il y a un problème avec le objectInputStream
+     * @throws ClassNotFoundException   exception si la classe EventHandler est introuvable
+     */
     public void listen() throws IOException, ClassNotFoundException {
         String line;
         if ((line = this.objectInputStream.readObject().toString()) != null) {
@@ -64,6 +116,17 @@ public class Server {
         }
     }
 
+    /**
+     * Cette méthode vous permet de créer un Pair à partir d'une String.
+     *
+     * Il divise la String en deux parties et affecte au champ Key du Pair la valeur de la première partie
+     * de la String (commande) et au champ Value du Pair la valeur de la deuxième partie de la String (arguments).
+     *
+     * Finalement, il retourne le Pair cree.
+     *
+     * @param line  le String a partir duquel le methode cree le Pair
+     * @return      le Pair cree
+     */
     public Pair<String, String> processCommandLine(String line) {
         String[] parts = line.split(" ");
         String cmd = parts[0];
@@ -71,12 +134,27 @@ public class Server {
         return new Pair<>(cmd, args);
     }
 
+    /**
+     * Cette méthode permet de fermer la connexion établie avec le client ainsi que les canaux de communication.
+     *
+     * @throws IOException  exception lors de la tentative de fermeture de connexions qui n'existent pas
+     */
     public void disconnect() throws IOException {
         objectOutputStream.close();
         objectInputStream.close();
         client.close();
     }
 
+    /**
+     * Cette méthode permet de définir les actions que le serveur doit effectuer en fonction
+     * de la commande reçue du client.
+     *
+     * Si la commande reçue est de type "CHARGER", le serveur exécute la méthode handleLoadCourses(arg).
+     * Si la commande reçue est de type "INSCRIRE" le serveur exécute la méthode handleRegistration().
+     *
+     * @param cmd   la commande qui permet de décider quelle méthode appeler
+     * @param arg   la session pour la commande "CHARGER"
+     */
     public void handleEvents(String cmd, String arg) {
         if (cmd.equals(REGISTER_COMMAND)) {
             handleRegistration();
@@ -104,13 +182,13 @@ public class Server {
                     //System.out.println(courListe[0]);
                     try {
                         this.objectOutputStream.writeObject(courObjet.toString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
                 }
             }
             reader.close();
-        }catch (Exception e){
+        }catch (Exception ex){
             System.out.println("Error lecture fichier");
         }
     }
@@ -121,10 +199,9 @@ public class Server {
      La méthode gére les exceptions si une erreur se produit lors de la lecture de l'objet, l'écriture dans un fichier ou dans le flux de sortie.
      */
     public void handleRegistration() {
-        Course curso = new Course("IFT1015", "Programmation1", "Automne");
+
         try {
             String registration = this.objectInputStream.readObject().toString();
-            this.objectOutputStream.writeObject(curso.toString());
             String resitrationList[] = registration.split(" ");
             String session = resitrationList[6].split("=")[1];
             String sessionTrim = session.substring(0, session.length()-3);
@@ -147,11 +224,12 @@ public class Server {
                 writer.newLine();
                 writer.append(registrationString);
                 writer.close();
+                this.objectOutputStream.writeObject(new Response("Succes").getMessage());
             } catch (IOException ex) {
-                System.out.println("Erreur à l'écriture du fichier");
+                this.objectOutputStream.writeObject(new Response("Error").getMessage());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
