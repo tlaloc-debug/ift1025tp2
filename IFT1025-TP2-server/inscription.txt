@@ -18,5 +18,9 @@ Automne	IFT1227	123456	erick	diaz	pelon
 Automne	IFT1227	123456	er	er	er
 null	null	123456	er	er	er
 Automne	IFT1227	123456	er	er	er
-Hiver	IFT1025	123456	Joseph	Fi	jo@umontreal.ca
-Ete	IFT2256	123456	joseph	finan	jofi@umontreal.ca
+Automne	IFT1015	123456	erick	erick	pelon@umontreal.ca
+Automne	IFT2255	123456	erick	erick	pelon@umontreal.ca
+Automne	IFT2255	234555	erick	erick	pelon@umontreal.ca
+Automne	IFT1015	123456	erick	erick	pelon@umontreal.ca
+Automne	IFT1015	123456	erick	eri	pe@umontreal.ca
+Automne	IFT1015	123456	e	e	e@umontreal.ca

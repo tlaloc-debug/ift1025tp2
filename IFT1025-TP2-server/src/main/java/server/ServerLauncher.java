@@ -1,6 +1,9 @@
 package server;
 import java.io.*;
 
+/**
+ * La classe ServerLauncher permet de demarrer le serveur.
+ */
 public class ServerLauncher {
     public final static int PORT = 1337;
 
