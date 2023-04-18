@@ -1,0 +1,9 @@
+
+le fichier Server.jar contient le serveur
+	- pour executer: java -jar Server.jar
+	
+le fichier ClientSimple.jar contient le Client_CLI
+	- pour executer: java -jar ClientSimple.jar
+	
+le fichier demo.jar contient le Client_GUI
+	- pour executer: java -jar demo.jar

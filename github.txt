@@ -1,8 +1,9 @@
-Lien a Github:
+Lien vers Github:
 
+	Important!!! Verifier Branch "inscription2" 
 	- https://github.com/tlaloc-debug/ift1025tp2/tree/inscription2
 	
-membres:
+Membres:
 
 	- Erick Diaz => erick (tlaloc-debug)
 	- Joseph Finan => Joe20083

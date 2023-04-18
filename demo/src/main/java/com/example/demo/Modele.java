@@ -58,9 +58,11 @@ public class Modele {
 		String choixInscription = "";
 		Scanner input = new Scanner(System.in);
 
+		// Creation de commande
 		Command charger = new Command("CHARGER", session);
 
 		try{
+			// création de connexion et canaux de communication
 			Socket s=new Socket("localhost",1337);
 			ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 			ObjectInputStream objectInputStream = new ObjectInputStream(s.getInputStream());
@@ -72,6 +74,7 @@ public class Modele {
 				try{
 					Object coursParSession = objectInputStream.readObject();
 					coursesList.add(coursParSession);
+					// On separe les champs nécessaires a partir d'un String
 					String[] courseStringList = coursParSession.toString().split(" ");
 					String codeCourse = courseStringList[1].split("=")[1];
 					String codeCourseTrim = codeCourse.substring(0, codeCourse.length()-1);
@@ -109,8 +112,10 @@ public class Modele {
 	 */
 	public void inscrire(RegistrationForm RegForm) {
 
+		// Creation de commande
 		Command inscrire = new Command("INSCRIRE", null);
         try{
+			// création de connexion et canaux de communication
 			Socket s=new Socket("localhost",1337);
 			ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
 			ObjectInputStream objectInputStream = new ObjectInputStream(s.getInputStream());

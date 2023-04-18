@@ -70,13 +70,16 @@ public class Controleur {
 		try {
 			Cour myCour = (Cour) vue.getSelectionModel().getSelectedItem();
 			Course myCourse = new Course(myCour.getName(), myCour.getCode(), session.getValue().toString());
+			// Si un champ est vide montre erreur
 			if (prenomInput.getText().equals("")||nomInput.getText().equals("")
 					||emailInput.getText().equals("")||matriculeInput.getText().equals("")){
 				String[] alert = {"Champs vides", "Tous les champs sont requis"};
 				showAlert(alert);
 			} else {
 				try {
+					// verification de emial de la forme xxx@umontreal.ca
 					if ((emailInput.getText().split("@",2)[1].equals("umontreal.ca"))){
+						// verification de la taille de la matricule
 						if (matriculeInput.getText().length() == 6){
 							try {
 								Integer.parseInt(matriculeInput.getText());

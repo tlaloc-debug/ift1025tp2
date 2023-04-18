@@ -56,6 +56,7 @@ public class ClientSimple {
         Scanner input = new Scanner(System.in);  
         System.out.println("\n*** Bienvenue au portail d'inscription de cours de l'UDEM ***");
 
+        // Boucle qui permet de consulter la liste des cours plusieurs fois
         do {
 
             coursesList.clear(); 
@@ -68,6 +69,7 @@ public class ClientSimple {
             choixSession = input.nextLine(); 
             
             repeter = true;
+            // Boucle qui permet de choisir seulement une choix valide
             while (repeter){
                 if ((Integer.parseInt(choixSession) > 0) && ((Integer.parseInt(choixSession) < 4))){
                     
@@ -89,10 +91,12 @@ public class ClientSimple {
                     choixSession = input.nextLine(); 
                 }
             }
-                    
+                
+            // Creation de commande
             Command charger = new Command("CHARGER", session);
 
-            try{      
+            try{    
+                // création de connexion et canaux de communication  
                 Socket s=new Socket("localhost",1337);  
                 ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
                 ObjectInputStream objectInputStream = new ObjectInputStream(s.getInputStream());
@@ -104,6 +108,7 @@ public class ClientSimple {
                     try{
                         Object coursParSession = objectInputStream.readObject();
                         coursesList.add(coursParSession);
+                        // On separe les champs nécessaires a partir d'un String
                         String[] courseStringList = coursParSession.toString().split(" ");
                         String codeCourse = courseStringList[1].split("=")[1];
                         String codeCourseTrim = codeCourse.substring(0, codeCourse.length()-1);
@@ -133,6 +138,7 @@ public class ClientSimple {
             choixInscription = input.nextLine(); 
 
             repeter = true;
+            // Boucle qui permet de choisir seulement une choix valide
             while (repeter){
                 if ((Integer.parseInt(choixInscription) > 0) && ((Integer.parseInt(choixInscription) < 3))){
                     repeter = false;
@@ -155,6 +161,7 @@ public class ClientSimple {
 
         System.out.print("Prenom: ");
         prenom = input.nextLine();
+        // Boucle qui permet de inserer un input valide
         while(prenom.equals("")){
             System.out.println("Veuillez indiquer votre prenom.");
             System.out.print("Prenom: ");
@@ -162,6 +169,7 @@ public class ClientSimple {
         }
         System.out.print("Nom: ");
         nom = input.nextLine();
+        // Boucle qui permet de inserer un input valide
         while(nom.equals("")){
             System.out.println("Veuillez indiquer votre nom.");
             System.out.print("Nom: ");
@@ -170,6 +178,7 @@ public class ClientSimple {
         System.out.print("E-mail: ");
         email = input.nextLine();
         repeter = true;
+        // Boucle qui permet de inserer un input valide
         while(repeter){
             try {
                 if(email.split("@",2)[1].equals("umontreal.ca")){
@@ -189,9 +198,11 @@ public class ClientSimple {
         System.out.print("Matricule: ");
         matricule = input.nextLine();
         repeter = true;
+        // Boucle qui permet de inserer un input valide
         while (repeter){
             if (matricule.length() == 6){
                 try {
+                    // Si on peut faire la conversion de String a Integer la matricule est valide
                     Integer.parseInt(matricule);
                     repeter = false;
                 } catch (Exception e){
@@ -209,7 +220,9 @@ public class ClientSimple {
         codeCours = input.nextLine();
 
         repeter = true;
+        // Boucle qui permet de inserer un input valide
         while (repeter){
+            // On verifie si le code insere corresponde a un des cours montrees
             for (int i = 0; i < coursesList.size(); i++){
                 String[] coursListListe = coursesList.get(i).toString().split(" ");
                 if (coursListListe[1].split("=")[1].equals(codeCours + ",")){
@@ -228,6 +241,7 @@ public class ClientSimple {
         for (int i = 0; i < coursesList.size(); i++){
             String[] coursListListe = coursesList.get(i).toString().split(" ");
             if (coursListListe[1].split("=")[1].equals(codeCours + ",")){
+                // On separe les champs nécessaires a partir d'un String
                 String codeInscription = coursListListe[1].split("=")[1];
                 String codeInscriptionTrim = codeInscription.substring(0, codeInscription.length()-1);
                 String nomInscription = coursListListe[0].split("=")[1];
@@ -243,9 +257,11 @@ public class ClientSimple {
         }
         
         RegistrationForm newRegistration = new RegistrationForm(prenom, nom, email, matricule, courseInscription);
-                
+            
+        // creation de la commande
         Command inscrire = new Command("INSCRIRE", null);
         try{      
+            // création de connexion et canaux de communication  
             Socket s=new Socket("localhost",1337);  
             ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
             ObjectInputStream objectInputStream = new ObjectInputStream(s.getInputStream());
