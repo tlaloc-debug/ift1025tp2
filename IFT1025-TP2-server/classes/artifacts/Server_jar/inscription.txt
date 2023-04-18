@@ -1,6 +1,2 @@
 Automne	IFT2255	12345678	Michalis	Famelis	mfamelis@iro.umontreal.ca
-Automne	IFT1015	123456	we	er	e@umontreal.ca
-Automne	IFT1015	123456	e	e	e@umontreal.ca
 
-Hiver	IFT2125	123456	e	e	er@umontreal.ca
-Automne	IFT1015	123456	e	e	eo34@umontreal.ca
