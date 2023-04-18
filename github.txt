@@ -1,0 +1,8 @@
+Lien a Github:
+
+	- https://github.com/tlaloc-debug/ift1025tp2/tree/inscription2
+	
+membres:
+
+	- Erick Diaz => erick (tlaloc-debug)
+	- Joseph Finan => Joe20083
